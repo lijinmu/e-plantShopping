@@ -9,7 +9,7 @@ import { addItem, removeItem } from "./CartSlice";
 function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
-    const [addedToCart, setAddedToCart] = useState({});
+    const [addedToCart, setAddedToCart] = useState(false);
     const dispatch = useDispatch();
 
     const plantsArray = [
@@ -245,6 +245,11 @@ function ProductList({ onHomeClick }) {
         onHomeClick();
     };
 
+    const checkoutHandler = (e) => {
+        e.preventDefault();
+        alert('Functionality to be added for future reference');
+    }
+
     const handleCartClick = (e) => {
         e.preventDefault();
         setShowCart(true); // Set showCart to true when cart icon is clicked
@@ -302,7 +307,12 @@ function ProductList({ onHomeClick }) {
                                 <div className="product-title">{plant.name}</div>
                                 <div className="product-description">{plant.description}</div>
                                 <div className="product-price">{plant.cost}</div>
-                                <button  className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                                <button
+      className={`product-button ${addedToCart[plant.name] ? 'added-to-cart' : ''}`}
+      onClick={() => handleAddToCart(plant)}
+    >
+      {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
+    </button>
                             </div>
                             ))}
                         </div>
@@ -312,7 +322,15 @@ function ProductList({ onHomeClick }) {
 
                 </div>
             ) : (
+                <div>
                 <CartItem onContinueShopping={handleContinueShopping} />
+                                <div className="continue_shopping_btn">
+                        <button className="get-started-button" onClick={handleContinueShopping}>Continue Shopping</button>
+                        <br />
+                        <button className="get-started-button1" onClick={(e) => checkoutHandler(e)} >Checkout</button>
+                    </div>
+                    </div>
+               
             )}
         </div>
     );
